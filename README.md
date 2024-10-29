@@ -2,6 +2,14 @@
 
 Rails 7.2 running on Ruby 3.3
 
+## Required Services:
+
+Redis 7
+
+## Required Environment Variables
+
+* `REDIS_URL`: Defaults to `redis://localhost:6379/0` for development, and `redis://localhost:6379/1` for test.
+
 # TODO: Document
 
 This README would normally document whatever steps are necessary to get the

@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "rails", "~> 7.2.1", ">= 7.2.1.2"
 gem "sprockets-rails"
 gem "puma", ">= 5.0"
-gem "sqlite3", ">= 2.1.1"
+gem "redis", ">= 5.3.0"
 
 # Use JavaScript with ESM import maps. [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -21,15 +21,32 @@ gem "jbuilder"
 # OpenStruct official gem, as the standard library version is deprecated.
 gem "ostruct"
 
+# HTTP client library abstraction layer
+gem "faraday", ">= 2.12.0"
+
+group :test do
+  # RSpec testing suite
+  gem "rspec-rails", ">= 7.0.1"
+
+  # Library for stubbing setting expectations on HTTP requests
+  gem "webmock"
+
+  # Code coverage analyzer
+  gem "simplecov", require: false
+end
+
 group :development, :test do
   # Static analysis for security vulnerabilities
   gem "brakeman", require: false
 
+  # Shim for loading .env files
+  gem "dotenv"
+
+  # Database for development and test environments
+  gem "sqlite3", ">= 2.1.1", require: false
+
   # Debugging tool
   gem "pry", "~> 0.14.2"
-
-  # RSpec testing suite
-  gem "rspec-rails", ">= 7.0.1"
 
   # Omakase Ruby styling
   gem "rubocop-rails-omakase", require: false
