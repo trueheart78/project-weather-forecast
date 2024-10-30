@@ -1,0 +1,7 @@
+<h1>Weather#index</h1>
+
+<%= form_with url: weather_location_path, method: :get do |form| %>
+  <%= form.label :query, "Address:" %>
+  <%= form.text_field :query %>
+  <%= form.submit "Search" %>
+<% end %>

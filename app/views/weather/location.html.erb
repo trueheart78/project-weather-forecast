@@ -1,0 +1,13 @@
+<h3>Select Location</h3>
+
+<% if @results.any? %>
+  <ul>
+    <% @results.each do |result| %>
+      <li>
+        <%= result_link(result) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= render partial: "weather/cached" %>

@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  get "weather/location", to: "weather#location"
+  get "weather/forecast", to: "weather#forecast"
+
+  root "weather#index"
+
+  match "*unmatched", to: "application#route_not_found", via: :all
 end

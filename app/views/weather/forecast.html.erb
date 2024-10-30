@@ -1,0 +1,23 @@
+<h3>Forecast for <%= @location_name %></h3>
+
+<p>
+  <% if @forecast.size > 1 %>
+    Currently, it is <%= @forecast[:current][:temperature_2m] %> <%=  @forecast[:current_units][:temperature_2m] %><br>
+    Today's high will be <%= @forecast[:daily][:temperature_2m_max][0] %> <%= @forecast[:daily_units][:temperature_2m_max] %><br>
+    Today's low will be <%= @forecast[:daily][:temperature_2m_min][0] %> <%= @forecast[:daily_units][:temperature_2m_min] %>
+  </p><p>
+    <b>Seven Day Forecast</b><br>
+    <% 7.times do |i| %>
+    <%= Date.parse(@forecast[:daily][:time][i]).strftime("%A") %>'s
+    high will be <%= @forecast[:daily][:temperature_2m_max][i] %> <%= @forecast[:daily_units][:temperature_2m_max] %>
+    and
+    low will be <%= @forecast[:daily][:temperature_2m_min][i] %> <%= @forecast[:daily_units][:temperature_2m_min] %>
+    <br>
+<% end %>
+
+  <% else %>
+    No data found for that location.
+  <% end %>
+</p>
+
+<%= render partial: "weather/cached" %>
