@@ -1,7 +1,7 @@
-<h1>Weather#index</h1>
-
-<%= form_with url: weather_location_path, method: :get do |form| %>
-  <%= form.label :query, "Address:" %>
-  <%= form.text_field :query %>
-  <%= form.submit "Search" %>
+<%= turbo_frame_tag "results_frame" do %>
+  <%= form_with url: weather_location_path, method: :get do |form| %>
+    <%= form.label :query, "Enter a City or Postal Code" %>
+    <%= form.text_field :query %>
+    <%= form.button "Search" %>
+  <% end %>
 <% end %>

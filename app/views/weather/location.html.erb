@@ -1,13 +1,19 @@
-<h3>Select Location</h3>
-
-<% if @results.any? %>
-  <ul>
-    <% @results.each do |result| %>
-      <li>
-        <%= result_link(result) %>
-      </li>
-    <% end %>
-  </ul>
+<%= turbo_frame_tag "results_frame" do %>
+  <b>Select Location</b><br>
+  <br>
+  <% if @results.any? %>
+    <ul style="margin-top:0;padding-top:0;">
+      <% @results.each do |result| %>
+        <li>
+          <%= result_link(result) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <i>
+      No results found. Please expand your search.<br>
+    </i>
+  <% end %>
+  <%= render partial: "weather/link" %>
+  <%= render partial: "weather/cached" %>
 <% end %>
-
-<%= render partial: "weather/cached" %>

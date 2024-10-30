@@ -1,3 +1,4 @@
+# Walks the user through the location and forecast pages.
 class WeatherController < ApplicationController
   def index
   end

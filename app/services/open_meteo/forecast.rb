@@ -10,7 +10,7 @@ class OpenMeteo::Forecast
       else
         json_raw = retrieve_from_api(latitude, longitude, temperature_unit)
 
-        cache_body(redis_key, json_raw)
+        cache_json(redis_key, json_raw)
         parse_json(json_raw)
       end
     end
@@ -18,14 +18,14 @@ class OpenMeteo::Forecast
     private
 
     def retrieve_from_api(latitude, longitude, temperature_unit)
-      response = find_matches(latitude, longitude, temperature_unit)
+      response = perform_api_request(latitude, longitude, temperature_unit)
 
       raise RuntimeError, "Status Returned: #{response.status}" if response.status != 200
 
       response.body
     end
 
-    def find_matches(latitude, longitude, temperature_unit)
+    def perform_api_request(latitude, longitude, temperature_unit)
       Faraday.new(
         url: BASE_URL,
         params: {
@@ -46,13 +46,13 @@ class OpenMeteo::Forecast
       }
     end
 
-    def parse_json(body)
-      JSON.parse body, symbolize_names: true
+    def parse_json(json_raw)
+      JSON.parse json_raw, symbolize_names: true
     end
 
-    def cache_body(key, body)
+    def cache_json(key, json_raw)
       $redis.multi do
-        $redis.set key, body
+        $redis.set key, json_raw
         $redis.expire key, 30.minutes.to_i
       end
     end

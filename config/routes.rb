@@ -14,5 +14,6 @@ Rails.application.routes.draw do
 
   root "weather#index"
 
+  # Force any unrecognized to a 404 page.
   match "*unmatched", to: "application#route_not_found", via: :all
 end

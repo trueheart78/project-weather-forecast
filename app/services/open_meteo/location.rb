@@ -11,7 +11,7 @@ class OpenMeteo::Location
       else
         json_raw = retrieve_from_api(name)
 
-        cache_body(redis_key, json_raw)
+        cache_json(redis_key, json_raw)
         parse_json(json_raw)
       end
     end
@@ -34,13 +34,13 @@ class OpenMeteo::Location
       ).get("v1/search")
     end
 
-    def parse_json(body)
-      JSON.parse(body, symbolize_names: true)
+    def parse_json(json_raw)
+      JSON.parse(json_raw, symbolize_names: true)
     end
 
-    def cache_body(key, body)
+    def cache_json(key, json_raw)
       $redis.multi do
-        $redis.set key, body
+        $redis.set key, json_raw
         $redis.expire key, 30.minutes.to_i
       end
     end
