@@ -46,7 +46,7 @@ group :development, :test do
   gem "sqlite3", ">= 2.1.1", require: false
 
   # Debugging tool
-  gem "pry", "~> 0.14.2"
+  gem "pry", "~> 0.15.0"
 
   # Omakase Ruby styling
   gem "rubocop-rails-omakase", require: false
