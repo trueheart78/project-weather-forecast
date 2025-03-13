@@ -12,45 +12,32 @@ RSpec.describe OpenMeteo::Location do
     subject(:search) { described_class.search name }
 
     context "when the name is provided" do
-      let(:name) { "Test City, 12345" }
+      let(:name) { "Test City, USA" }
       let(:request_url) { "#{described_class::BASE_URL}/v1/search?name=#{name}" }
 
       context "when the remote API returns a 200" do
         context "when there are results returned" do
-          let(:results) { [ generate_result, generate_result ] }
-          let(:body_json) do
-            {
-              results: results,
-              generationtime_ms: 0.62704086
-            }
-          end
+          let(:response_json) { FakeMeteo.response_json(name) }
 
           before do
-            stub_request(:get, request_url).to_return_json(body: body_json)
+            stub_request(:get, request_url).to_return_json(body: response_json)
           end
 
           it "returns the expected results" do
-            expect(search).to eq body_json
+            expect(search).to eq response_json
           end
         end
 
         context "when called multiple times within 30 minutes" do
-          let(:results) { [ generate_result, generate_result ] }
-          let(:body_json) do
-            {
-              results: results,
-              generationtime_ms: 0.62704086
-            }
-          end
+          let(:response_json) { FakeMeteo.response_json(name) }
 
           it "caches the API call" do
-            stub = stub_request(:get, request_url).to_return_json(body: body_json)
+            stub = stub_request(:get, request_url).to_return_json(body: response_json)
 
             first_json = described_class.search(name)
             second_json = described_class.search(name)
 
             expect(stub).to have_been_requested.times(1)
-
             expect(first_json.key?(:cached)).to eq false
             expect(second_json.key?(:cached)).to eq true
           end
@@ -86,27 +73,5 @@ RSpec.describe OpenMeteo::Location do
         expect { search }.to raise_error ArgumentError, "name can't be blank"
       end
     end
-  end
-
-  def generate_result
-    id = rand(1_000_000...10_000_000)
-    post_code = rand(1_000...10_000)
-    {
-      id: id,
-      name: "Test City #{id}",
-      latitude: rand(42),
-      longitude: rand(42),
-      country_code: "US",
-      admin1_id: rand(1_000_000...10_000_000),
-      admin2_id: rand(1_000_000...10_000_000),
-      admin3_id: rand(1_000_000...10_000_000),
-      admin1: "State Name",
-      admin2: "County Name",
-      admin3: "City Name",
-      timezone: "America/New_York",
-      postcodes: %W[#{post_code}1 #{post_code}2 #{post_code}3],
-      country_id: 6252001,
-      country: "United States"
-    }
   end
 end
