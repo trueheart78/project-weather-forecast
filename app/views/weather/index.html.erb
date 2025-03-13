@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "results_frame" do %>
   <%= form_with url: weather_location_path, method: :get do |form| %>
-    <%= form.label :query, "Enter a City or Postal Code" %>
-    <%= form.text_field :query %>
-    <%= form.button "Search" %>
+    <%= form.label :query, "Enter a City or Postal Code", class: "block mb-2 text-sm font-medium text-purple-900" %>
+    <%= form.text_field :query, class: "bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 my-2" %>
+    <%= form.button "Search", class: "text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 my-2 text-center cursor-pointer" %>
   <% end %>
 <% end %>

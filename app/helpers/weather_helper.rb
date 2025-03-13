@@ -8,7 +8,7 @@ module WeatherHelper
                                 name: name,
                                 data: { turbo_frame: "location_frame" }
 
-    link_to name, url
+    link_to name, url, class: "text-pink-500 hover:text-orange-600 underline cursor-pointer"
   end
 
   # Builds the result location name to be displayed using all relevant parts.

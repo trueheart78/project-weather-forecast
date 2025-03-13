@@ -1,8 +1,8 @@
 <%= turbo_frame_tag "results_frame" do %>
-  <b>Select Location</b><br>
+  <span class="mb-2 text-sm font-medium text-purple-700">Select Location</span><br>
   <br>
   <% if @results.any? %>
-    <ul style="margin-top:0;padding-top:0;">
+    <ul class="mt-0 pt-0">
       <% @results.each do |result| %>
         <li>
           <%= result_link(result) %>
@@ -10,8 +10,8 @@
       <% end %>
     </ul>
   <% else %>
-    <i>
-      No results found. Please expand your search.<br>
+    <i class="block text-base font-medium text-red-600">
+      No results found. Please expand your search.
     </i>
   <% end %>
   <%= render partial: "weather/link" %>

@@ -1,12 +1,12 @@
 <%= turbo_frame_tag "results_frame" do %>
-  <b>Forecast for <%= @location_name %></b><br>
+  <span class="block mb-2 text-sm font-medium text-blue-900">Forecast for <%= @location_name %></span><br>
   <p>
     <% if @forecast.size > 1 %>
       Currently, it is <%= @forecast[:current][:temperature_2m] %> <%=  @forecast[:current_units][:temperature_2m] %><br>
       Today's high will be <%= @forecast[:daily][:temperature_2m_max][0] %> <%= @forecast[:daily_units][:temperature_2m_max] %><br>
       Today's low will be <%= @forecast[:daily][:temperature_2m_min][0] %> <%= @forecast[:daily_units][:temperature_2m_min] %><br>
       <br>
-      <b>Seven Day Forecast</b><br>
+      <b>Seven-Day Forecast</b><br>
       <% 7.times do |i| %>
         <%= Date.parse(@forecast[:daily][:time][i]).strftime("%A") %>'s
         high will be <%= @forecast[:daily][:temperature_2m_max][i] %> <%= @forecast[:daily_units][:temperature_2m_max] %>
