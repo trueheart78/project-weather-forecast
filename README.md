@@ -5,16 +5,24 @@
 A Ruby on Rails application that utilizes location and weather data from [Open Meteo][open meteo]
 to display the relevant forecast data to the user.
 
+## Running the Server
+
+Please run the `bin/dev` file to utilize Foreman to spin up the app.
+
+```shell
+./bin/dev
+```
+
 ## Technologies
 
-* Ruby 3.3
-* Rails 7.2
+* Ruby 3.4
+* Rails 8.0
 * Redis 7
+* TailwindCSS 4
 
 ## Notable Features
 
 * Utilizes [HotWire][hot wire] to act as a single page application.
-* CSS provided by [SimpleCSS][simple css].
 * Code style enforced by [RuboCop][rubo cop].
 * Code coverage provided by [SimpleCov][simple cov].
 
