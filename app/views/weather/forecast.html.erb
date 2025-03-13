@@ -1,12 +1,12 @@
 <%= turbo_frame_tag "results_frame" do %>
-  <span class="block mb-2 text-sm font-medium text-blue-900">Forecast for <%= @location_name %></span><br>
+  <span class="block mb-2 text-sm font-medium text-purple-600">Forecast for <%= @location_name %></span>
   <p>
     <% if @forecast.size > 1 %>
       Currently, it is <%= @forecast[:current][:temperature_2m] %> <%=  @forecast[:current_units][:temperature_2m] %><br>
       Today's high will be <%= @forecast[:daily][:temperature_2m_max][0] %> <%= @forecast[:daily_units][:temperature_2m_max] %><br>
       Today's low will be <%= @forecast[:daily][:temperature_2m_min][0] %> <%= @forecast[:daily_units][:temperature_2m_min] %><br>
       <br>
-      <b>Seven-Day Forecast</b><br>
+      <b class="block text-pink-600">Seven-Day Forecast</b>
       <% 7.times do |i| %>
         <%= Date.parse(@forecast[:daily][:time][i]).strftime("%A") %>'s
         high will be <%= @forecast[:daily][:temperature_2m_max][i] %> <%= @forecast[:daily_units][:temperature_2m_max] %>
@@ -18,6 +18,6 @@
       No data found for that location.
     <% end %>
   </p>
-  <%= render partial: "weather/link" %>
-  <%= render partial: "weather/cached" %>
+  <%= render partial: "weather/new_location_link" %>
+  <%= render partial: "weather/cached_data_footer" %>
 <% end %>

@@ -1,6 +1,5 @@
 <%= turbo_frame_tag "results_frame" do %>
-  <span class="mb-2 text-sm font-medium text-purple-700">Select Location</span><br>
-  <br>
+  <span class="block mb-2 text-sm font-medium text-purple-700">Select Location</span>
   <% if @results.any? %>
     <ul class="mt-0 pt-0">
       <% @results.each do |result| %>
@@ -14,6 +13,6 @@
       No results found. Please expand your search.
     </i>
   <% end %>
-  <%= render partial: "weather/link" %>
-  <%= render partial: "weather/cached" %>
+  <%= render partial: "weather/new_location_link" %>
+  <%= render partial: "weather/cached_data_footer" %>
 <% end %>
