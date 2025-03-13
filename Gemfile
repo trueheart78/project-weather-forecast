@@ -24,6 +24,9 @@ gem "ostruct"
 # HTTP client library abstraction layer
 gem "faraday", ">= 2.12.0"
 
+# CSS
+gem "tailwindcss-rails", "~> 4.2"
+
 group :test do
   # RSpec testing suite
   gem "rspec-rails", ">= 7.0.1"
