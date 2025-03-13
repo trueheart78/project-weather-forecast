@@ -10,17 +10,14 @@ RSpec.describe OpenMeteo::Forecast do
 
   describe ".retrieve" do
     subject(:retrieve) { described_class.retrieve latitude, longitude, temperature_unit }
-    let(:latitude) { random_latitude }
-    let(:longitude) { random_longitude }
+    let(:latitude) { FakeMeteo.random_latitude }
+    let(:longitude) { FakeMeteo.random_longitude }
     let(:temperature_unit) { %w[fahrenheit celsius].sample }
-
-    let(:latitude) { random_latitude }
-    let(:longitude) { random_longitude }
     let(:request_url) { "#{described_class::BASE_URL}/v1/forecast?current=temperature_2m&daily=temperature_2m_max,temperature_2m_min&forecast_days=7&latitude=#{latitude}&longitude=#{longitude}&temperature_unit=#{temperature_unit}&timezone=GMT" }
 
     context "when the remote API returns a 200" do
       context "when there are results returned" do
-        let(:body_json) { generate_body latitude, longitude, temperature_unit }
+        let(:body_json) { FakeMeteo::Forecast.generate_body latitude, longitude, temperature_unit }
 
         before do
           stub_request(:get, request_url).to_return_json(body: body_json)
@@ -42,13 +39,13 @@ RSpec.describe OpenMeteo::Forecast do
           stub_request(:get, request_url).to_return_json(body: body_json)
         end
 
-        it "returns an the expected  array" do
+        it "returns an the expected array" do
           expect(retrieve).to eq body_json
         end
       end
 
       context "when called multiple times within 30 minutes" do
-        let(:body_json) { generate_body latitude, longitude, temperature_unit }
+        let(:body_json) { FakeMeteo::Forecast.generate_body latitude, longitude, temperature_unit }
 
         it "caches the API call" do
           stub = stub_request(:get, request_url).to_return_json(body: body_json)
@@ -76,58 +73,5 @@ RSpec.describe OpenMeteo::Forecast do
         expect { retrieve }.to raise_error(expected_error)
       end
     end
-  end
-
-  def generate_body(latitude, longitude, temperature_unit)
-    temp_notation = "°C"
-    temp_notation = "°F" if temperature_unit == "fahrenheit"
-
-    {
-      latitude: latitude,
-      longitude: longitude,
-      generationtime_ms: 0.0710487365722656,
-      utc_offset_seconds: 0,
-      timezone: "GMT",
-      timezone_abbreviation: "GMT",
-      elevation: rand(10...100),
-      current_units: {
-        time: "iso8601",
-        interval: "seconds",
-        temperature_2m: temp_notation
-      },
-      current: {
-        time: "2024-10-29T21:30",
-        interval: 900,
-        temperature_2m: 13.2
-      },
-      daily_units: {
-        time: "iso8601",
-        temperature_2m_max: temp_notation,
-        temperature_2m_min: temp_notation
-      },
-      daily: {
-        time: [
-          Time.now.strftime("%F"),
-          1.day.from_now.strftime("%F"),
-          2.days.from_now.strftime("%F"),
-          3.days.from_now.strftime("%F"),
-          4.days.from_now.strftime("%F"),
-          5.days.from_now.strftime("%F"),
-          6.days.from_now.strftime("%F")
-        ],
-        temperature_2m_max: [ 15.1, 14.8, 14.1, 12.6, 13.5, 13.8, 12 ],
-        temperature_2m_min: [ 12, 9.6, 6.5, 10.4, 10.8, 8.7, 7.6 ]
-      }
-    }
-  end
-
-  # Generates a random latitude between -90.00 to 90.00
-  def random_latitude
-    (rand * 180 - 90).round(2)
-  end
-
-  # Generates a random longitude between -180.00 to 180.00
-  def random_longitude
-    (rand * 360 - 180).round(2)
   end
 end

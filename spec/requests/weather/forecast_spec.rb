@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "WeatherController#location", type: :request do
+RSpec.describe "WeatherController#forecast", type: :request do
   let(:request_url) { "#{OpenMeteo::Location::BASE_URL}/v1/search?name=#{name}" }
   let(:name) { "90210" }
   let(:response_json) { FakeMeteo::Location.response_json(name) }

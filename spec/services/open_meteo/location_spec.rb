@@ -17,7 +17,7 @@ RSpec.describe OpenMeteo::Location do
 
       context "when the remote API returns a 200" do
         context "when there are results returned" do
-          let(:response_json) { FakeMeteo.response_json(name) }
+          let(:response_json) { FakeMeteo::Location.response_json(name) }
 
           before do
             stub_request(:get, request_url).to_return_json(body: response_json)
@@ -29,7 +29,7 @@ RSpec.describe OpenMeteo::Location do
         end
 
         context "when called multiple times within 30 minutes" do
-          let(:response_json) { FakeMeteo.response_json(name) }
+          let(:response_json) { FakeMeteo::Location.response_json(name) }
 
           it "caches the API call" do
             stub = stub_request(:get, request_url).to_return_json(body: response_json)
