@@ -10,7 +10,6 @@ class OpenMeteo::Location
         load_cached_response(redis_key)
       else
         json_raw = retrieve_from_api(name)
-
         cache_json(redis_key, json_raw)
         parse_json(json_raw)
       end
@@ -21,9 +20,16 @@ class OpenMeteo::Location
     def retrieve_from_api(name)
       response = perform_api_search_request(name)
 
-      raise RuntimeError, "Status Returned: #{response.status}" if response.status != 200
-
-      response.body
+      case response.status
+      when 200
+        response.body
+      when 404
+        raise RuntimeError, "Status Returned: 404"
+      when 429
+        raise RuntimeError, "Status Returned: 429"
+      else
+        raise RuntimeError, "Status Returned: #{response.status}"
+      end
     end
 
     def perform_api_search_request(name)
@@ -36,6 +42,8 @@ class OpenMeteo::Location
 
     def parse_json(json_raw)
       JSON.parse(json_raw, symbolize_names: true)
+    rescue JSON::ParserError
+      raise RuntimeError, "Invalid JSON response"
     end
 
     def cache_json(key, json_raw)
@@ -51,7 +59,6 @@ class OpenMeteo::Location
 
     def load_cached_response(key)
       json_raw = $redis.get(key)
-
       parse_json(json_raw).tap do |j|
         j[:cached] = true
       end

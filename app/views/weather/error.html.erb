@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "location_results" do %>
+  <div class="error-message">
+    <p class="error-text"><%= @error %></p>
+    <% if @retry_after %>
+      <p class="retry-info">Please try again in <%= @retry_after %> seconds</p>
+    <% end %>
+  </div>
+<% end %> 

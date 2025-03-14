@@ -1,18 +1,31 @@
-<%= turbo_frame_tag "results_frame" do %>
-  <span class="block mb-2 text-sm font-medium text-purple-700">Select Location</span>
-  <% if @results.any? %>
-    <ul class="mt-0 pt-0">
-      <% @results.each do |result| %>
-        <li>
-          <%= result_link(result) %>
-        </li>
+<%= turbo_frame_tag "location_results" do %>
+  <div class="location-results">
+    <% if @results.any? %>
+      <ul class="location-list">
+        <% @results.each do |result| %>
+          <li class="location-item">
+            <%= link_to weather_forecast_path(
+              name: result[:name],
+              latitude: result[:latitude],
+              longitude: result[:longitude]
+            ), data: { turbo_frame: "_top" } do %>
+              <div class="location-details">
+                <h3><%= result[:name] %></h3>
+                <p><%= [result[:admin1], result[:country]].compact.join(", ") %></p>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+      <% if @cached %>
+        <div class="cached-notice">
+          <small>Results from cache</small>
+        </div>
       <% end %>
-    </ul>
-  <% else %>
-    <i class="block text-base font-medium text-red-600">
-      No results found. Please expand your search.
-    </i>
-  <% end %>
-  <%= render partial: "weather/new_location_link" %>
-  <%= render partial: "weather/cached_data_header" %>
+    <% else %>
+      <div class="no-results">
+        <p>No locations found</p>
+      </div>
+    <% end %>
+  </div>
 <% end %>
