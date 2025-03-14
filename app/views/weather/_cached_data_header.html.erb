@@ -1,0 +1,11 @@
+<% if @cached %>
+  <div
+    class="animate-fade-out-scale"
+    data-controller="removals"
+    data-action="animationend->removals#remove"
+  >
+    <i class="block mt-6 text-xs text-pink-400">
+      displaying cached results
+    </i>
+  </div>
+<% end %>

@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+    --animate-fade-out-scale: fade-in-scale 8s ease-out;
+
+    @keyframes fade-in-scale {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    }
+}
+
 body {
     font-sans: BlinkMacSystemFont, "Avenir Next", Avenir,
     "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
